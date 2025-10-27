@@ -1,24 +1,23 @@
-const express = require("express");
-const path = require("path");
+const path = require('path');
+const express = require('express');
 
-const PORT = 3000;
-const STATIC_ASSETS_PATH = path.resolve(`${__dirname}/../../static`);
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+const STATIC_ASSETS_PATH = path.join(__dirname, '..', '..', 'static');
 
 const app = express();
 
-// Serve front end assets which have been built by webpack
-app.use("/static", express.static(STATIC_ASSETS_PATH));
+app.use('/static', express.static(STATIC_ASSETS_PATH));
 
-app.get("/", (request, response) => {
-	response.send(`
-<!DOCTYPE html>
-<html>
-	<body>
-		<div id="container"></div>
-		<script src="/static/bundle.js"></script>
-	</body>
-</html>
-	`);
+app.get('/', (_reg, res) => {
+res.set('Content-Type', 'text/html; charset=utf-8');
+res.send(`<!doctype html><html><body>
+<div id-"container"></dev>
+<script src="/static/bundle.js"></scripts>
+</body></html>`);
 });
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}.\n\nLoad it in your browser at http://localhost:${PORT}`))
+app.listen(PORT, HOST, () => {
+console.log('Serving static from:', STATIC_ASSETS_PATH);
+console.log(`Example app listerning on http://${HOST}:${PORT}1`);
+});
